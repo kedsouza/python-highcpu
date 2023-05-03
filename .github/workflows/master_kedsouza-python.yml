@@ -24,8 +24,8 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
-          python -m venv venv
-          source venv/bin/activate
+          python -m venv antenv
+          source antenv/bin/activate
       
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -36,9 +36,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: python-app
-          path: |
-            . 
-            !venv/
+          path: .
+     
 
   deploy:
     runs-on: ubuntu-latest
