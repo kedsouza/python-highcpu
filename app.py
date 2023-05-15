@@ -1,6 +1,9 @@
 from flask import Flask
 import os, time
 
+import cProfile, pstats, io
+from pstats import SortKey
+
 app = Flask(__name__)
 num = 1
 
@@ -20,7 +23,17 @@ def thirdMethod(n):
 
 @app.route("/")
 def home():  
+
+    pr = cProfile.Profile()
+    pr.enable()
     result = firstMethod()
+
+    s = io.StringIO()
+    sortby = SortKey.CUMULATIVE
+    ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+    ps.print_stats()
+    print(s.getvalue())
+
     return "%s!" %result
 
 if __name__ == '__main__':
